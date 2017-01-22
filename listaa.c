@@ -60,7 +60,7 @@ void izbrisi(lista *glava,char d){
 	}
 	if(glava==tek){
 	glava=tek->sledeci;
-	tej->sledeci=NULL;
+	tek->sledeci=NULL;
 	free(tek);
 	}
 	else{
