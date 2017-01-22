@@ -36,30 +36,30 @@ void print(lista *glava){
 	}
 	printf("]\n");
 }
-int nadji(lista *glava,char x){
+void nadji(lista *glava,char x){
 	lista *tek=glava;
 	int k=0;
-	while(tek!=NULL){
-	
-	if(tek->znak==x){
-	printf("Karakter pronadjen\n");
-	k++; }
+	while(tek!=NULL && tek->znak!=x){
 	tek=tek->sledeci;
 	}
-	if(k==0)
+	if(tek==NULL)
 	printf("Karakter nije pronadjen\n");
-	return k;
+	else
+	printf("Karakter je pronadjen\n");
 }
 
-void izbrisi(lista *glava,char d){
-	lista *tek=glava;
+void izbrisi(lista **glava,char d){
+	lista *tek=*glava;
 	lista *pret=NULL;
 	while(tek!=NULL && tek->znak!=d){
 	pret=tek;
 	tek=tek->sledeci;
 	}
-	if(glava==tek){
-	glava=tek->sledeci;
+	if(tek==NULL)
+	printf("Element %c se ne nalazi u listi\n",d);
+	else{
+	if(*glava==tek){
+	*glava=tek->sledeci;
 	tek->sledeci=NULL;
 	free(tek);
 	}
@@ -67,17 +67,19 @@ void izbrisi(lista *glava,char d){
 	pret->sledeci=tek->sledeci;
 	tek->sledeci=NULL;
 	free(tek);}
+	}
 
-	print(glava);
+	print(*glava);
 }
 void zameni(lista *glava,char p,char o){
 	lista *pom=glava;
-	while(pom!=NULL){
-	if(pom->znak==p){
-	pom->znak=o;
-		}
+	while(pom!=NULL && pom->znak!=p){
 	pom=pom->sledeci;
 	}
+	if(pom==NULL)
+	printf("ELement %c se ne nalazi u listi\n",p);
+	else
+	pom->znak=o;
 	print(glava);
 	
 }
@@ -113,15 +115,15 @@ int main(){
 	
 	nadji(glava,x);
 	
-	do{
+	
 	printf("Unesite karakter za brisanje:");
-	scanf(" %c",&d);}while(nadji(glava,d)==0);
+	scanf(" %c",&d);
 
-	izbrisi(glava,d);
+	izbrisi(&glava,d);
 
-	do{
+	
 	printf("Unesite karakter koji menjate:");
-	scanf(" %c",&p);}while(nadji(glava,p)==0);
+	scanf(" %c",&p);
 	printf("Unesite karakter zamene:");
 	scanf(" %c",&o);
 	
@@ -131,14 +133,6 @@ int main(){
 
 	return 0;
 }
-
-
-
-
-
-
-
-
 
 
 
